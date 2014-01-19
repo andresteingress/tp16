@@ -23,6 +23,8 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step3}
 ;; step 3 - applying/calling functions
 (+ 1 1)
+(* 2 (+ 1 1))
+
 
 ;; functions are everywhere: even for variable definitions
 (def string "hello, folks at technologie-plauscherl")
@@ -67,7 +69,7 @@ println "hello, folks at technologie-plauscherl!"
 (println '(println "hello, folks at technologie-plauscherl"))
 
 ;; the println statement above could be reformulated in code like this
-(list ((symbol "println") "hello, folks at technologie-plauscherl"))
+(eval (list (symbol "println") "test"))
 
 
 ;; {END}
