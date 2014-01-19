@@ -1,23 +1,39 @@
-(require '[clojure.java.browse :only browse-url])
+;; {BEGIN: step0}
 
 ;; step 0 - it's all about data.
 
+;; Once upon a time, a Scala and a Clojure developer ...
 
+;; JSON feeling everywhere
+
+;; {END}
+
+;; {BEGIN: step1}
 ;; step 1 - say hello to all folks at technologie-plauscherl
 println "hello, folks at technologie-plauscherl!"
+;; {END}
 
+;; {BEGIN: step2}
+;; step 2 - say hello take 2
 
-;; step 2 - do it the clojure way
-
-;; function is execute with using a prefix notation
+;; so-called S-expressions are used to execute functions
 (println "hello, folks at technologie-plauscherl")
+;; {END}
+
+;; {BEGIN: step3}
+;; step 3 - applying/calling functions
 (+ 1 1)
 
-;; step 3 - assign it to a variable
+;; functions are everywhere: even for variable definitions
 (def string "hello, folks at technologie-plauscherl")
 (println string)
+;; {END}
 
-(println (class string)) ;; look, our old friend "java.lang.String"
+
+;; {BEGIN: step4}
+;; step 4 - Clojure data types
+
+(println (class string)) ; look, our old friend "java.lang.String"
 (println (class (char 97)))
 (println (class 1))
 (println (class 1N))
@@ -26,37 +42,72 @@ println "hello, folks at technologie-plauscherl!"
 (println (class (* 2 1/3)))
 (println (class :plauscherl))
 
-;; all of the collections are IMMUTABLE and PERSISTENT (structural sharing, enheriently thread-safe)
+; all of the collections are IMMUTABLE and PERSISTENT (structural sharing, enheriently thread-safe)
 (println (class []))
 (println (class {}))
 (println (class #{}))
 
-;; sequences in action
+; sequences in action
 (println (class (seq [1 2 3])))
 
-;; and there is more: list is a special collection ...
-(println (class ()))
+;; Clojure internally uses some interfaces and a little class hierarchy
+(ancestors (class []))
+;; {END}
+
+;; {BEGIN: step5}
+;; step 5 - list: a special data type in Clojure
+
+(println (class (+)))
 (println (class '()))
 
-;; list is used everywhere in the source code!
+;; every list represents an S-expression
+(browse-url "http://en.wikipedia.org/wiki/S-expression")
+
+;; code is data - lists can be both: data or code and code to generate code
 (println '(println "hello, folks at technologie-plauscherl"))
-(println `(println "hello, folks at technologie-plauscherl"))
 
 ;; the println statement above could be reformulated in code like this
 (list ((symbol "println") "hello, folks at technologie-plauscherl"))
 
-;; MACROS an be used to generate code at compile-time by the REPL or the Clojure reader
 
+;; {END}
 
+;; {BEGIN: step6}
+;; step 6 - special forms
 
-;; we already used lists to make actual function calls
-;; what functions are available?
+;; the order of values in the list is pre-defined, needs to be correctly interpreted by the runtime
+(browse-url "http://clojure.org/special_forms")
+
+(def x 42) ;; def is a special form which creates a bound or unbound VAR
+(def x)
+
+(class (var x))
+(class #'x)
+
+(class (symbol "x"))
+
+;; defn also defines a var which is a symol attached to a function
+
+;; variable visibility is a key difference between all the Lisps, Clojure is a Lisp-1 (can't be a function and a var
+;; with the same name)
+(browse-url "http://clojure.org/lisps")
+;; {END}
+
+;; {BEGIN: step7}
+;; step 7 - available functions
 
 ;; various packages: clojure.core, clojure.java, clojure.data, clojure.string, clojure.test, ...
 (browse-url "http://clojuredocs.org")
 (browse-url "http://clojuredocs.org/clojure_core")
 
-;; will see more functions in the next 10 minutes ...
+;; or use helper functions
+(clojure.repl/find-doc "reduce")
+(clojure.repl/doc map)
+;; {END}
+
+
+;; {BEGIN: step8}
+;; step 8 - defining functions
 
 ;; having a closer look at functions - how is a function DEFINED?
 
@@ -75,7 +126,14 @@ println "hello, folks at technologie-plauscherl!"
 (println `(my-print "test"))
 (println (class 'my-print))
 
-;; MACROS can be used to generate code
+;; there is another powerful mechanism besides function definitions at runtime ...
+
+;; {END}
+
+;; {BEGIN: step9}
+;; step 9 - macros: usage and expansion
+
+;; MACROS can be used to generate code at compile-time
 (macroexpand '(println "test"))
 (macroexpand '(defn my-print [arg1 arg2] (println arg1 arg2)))
 (macroexpand '(def x 42))
@@ -87,17 +145,12 @@ println "hello, folks at technologie-plauscherl!"
 (let [x 42] ;; [x 42] is another special form: a binding. it binds a symbol to a value
   (inc x))
 
+;; {END}
 
-;; step 4 - we want to replace "plauscherl" with "meeting". requires functions from the clojure.string namespace
-(require '[clojure.string :as str :only str/replace])
-(str/replace string "plauscherl" "meeting")
+;; {BEGIN: step10}
+;; step 10 - it's all about data. Immutable data.
 
-(use '[clojure.string])
-(replace msg "plauscherl" "meeting")
-
-;; It's all about data.
-
-;; step 5 - remember the collection classes?
+;; remember the collection classes?
 
 ;; def map
 (def andre {:name "André" :age "31" :city "Linz"})
@@ -130,13 +183,13 @@ println "hello, folks at technologie-plauscherl!"
 (browse-url "http://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey")
 
 ;; "The future is a function of the past, and doesn’t change it. (Stu Halloway)"
-
-
 ;; MGMT SUMMARY: damn statful stuff, espescially in a concurrent environment.
+;; {END}
 
-;; Clojure: everything is thread-safe
+;; {BEGIN: step11}
+;; step 11 - concurrency tools
 
-;; check this out: lazy sequences can be used to create generators
+;; check this out: LAZY sequences can be used to create generators
 (take 5 (repeat "x"))
 
 (defn positive-numbers
@@ -185,8 +238,12 @@ println "hello, folks at technologie-plauscherl!"
 (def cars (agent [])) ;; agents can be used with any data-structure
 (send cars conj {:name "ferrari"})
 (deref cars)
+;; {END}
 
-;; In upcoming Clojure 1.6: clojure.core.async
+;; {BEGIN: step12}
+;; step 12 - clojure.core.async
+
+;; upcoming in Clojure 1.6: clojure.core.async
 ;;
 ;; "go" and language-immanent channel stolen from the Go programming language
 (remove-ns 'clojure.string)
@@ -207,11 +264,10 @@ println "hello, folks at technologie-plauscherl!"
   (go (>! c "hello"))
   (assert (= "hello" (<!! (go (<! c)))))
   (close! c))
+;; {END}
 
-;; clojure.core.reducers ebenfalls besprechen
-;; auch macros nicht vergessen, das ist der noch fehlende teil
-
-;; another example for built-in concurrency features: 1.5.0: reducers
+;; {BEGIN: step13}
+;; step 13 - parallel reducers in Clojure 1.5
 
 ;; Reducers provide parallel reduce and combine via Java's fork/join.
 
@@ -222,3 +278,4 @@ println "hello, folks at technologie-plauscherl!"
                    (inc x)))
 
 (r/fold + (r/map inc [1 2 3 4]))
+;; {END}
