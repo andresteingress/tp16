@@ -2,38 +2,38 @@
 
 ;; step 0 - code is data.
 
-                                                                                                    
-                                                                                                    
-                                              .:::::::`                                             
-                                            :::::::::::::                                           
-                                          ::::::::::::::::,                                         
-                                         :::::::::::::::::::                                        
-                                        :::::::::::::::::::::                                       
-                                       `     .::.  `,:::::::::                                      
-                                                       :::::::,                                     
-                                         ``     .....   .::::::                                     
-                                       ;;;;      ......  .::::::                                    
-                                      ;;;;. `::  .......  ::::::                                    
-                                     ;;;;;  ::::  .......  :::::,                                   
-                                    ;;;;;` :::::  .......` ::::::                                   
-                                    ;;;;;  :::::: ........ `:::::                                   
-                                   ,;;;;; `::::::  .......  :::::                                   
-                                   ,;;;;; .::::::  .......  :::::                                   
-                                   ,;;;;; .::::: ` .......  :::::                                   
-                                   `;;;;;  ::::: :  ......  :::::                                   
-                                    ;;;;;  ::::  :  ...... .:::::                                   
-                                    ;;;;;, ,::: ::: `....  :::::`                                   
-                                    ;;;;;;  ::  :::  ....  :::::                                    
-                                    `;;;;;;  :  :::`  ..  ::::,                                     
-                                     ;;;;;;,    ::::     ,,,                                        
-                                     `;;;;;;:   `::,                                                
-                                      ;;;;;;;;.       :                                             
-                                       ;;;;;;;;;;;;;;;;;;;;;;:                                      
-                                        ;;;;;;;;;;;;;;;;;;;;;                                       
-                                         ;;;;;;;;;;;;;;;;;;,                                        
-                                          .;;;;;;;;;;;;;;;                                          
-                                            ,;;;;;;;;;;;`                                           
-                                               `:;;;:`                                              
+
+
+                                              .:::::::`
+                                            :::::::::::::
+                                          ::::::::::::::::,
+                                         :::::::::::::::::::
+                                        :::::::::::::::::::::
+                                       `     .::.  `,:::::::::
+                                                       :::::::,
+                                         ``     .....   .::::::
+                                       ;;;;      ......  .::::::
+                                      ;;;;. `::  .......  ::::::
+                                     ;;;;;  ::::  .......  :::::,
+                                    ;;;;;` :::::  .......` ::::::
+                                    ;;;;;  :::::: ........ `:::::
+                                   ,;;;;; `::::::  .......  :::::
+                                   ,;;;;; .::::::  .......  :::::
+                                   ,;;;;; .::::: ` .......  :::::
+                                   `;;;;;  ::::: :  ......  :::::
+                                    ;;;;;  ::::  :  ...... .:::::
+                                    ;;;;;, ,::: ::: `....  :::::`
+                                    ;;;;;;  ::  :::  ....  :::::
+                                    `;;;;;;  :  :::`  ..  ::::,
+                                     ;;;;;;,    ::::     ,,,
+                                     `;;;;;;:   `::,
+                                      ;;;;;;;;.       :
+                                       ;;;;;;;;;;;;;;;;;;;;;;:
+                                        ;;;;;;;;;;;;;;;;;;;;;
+                                         ;;;;;;;;;;;;;;;;;;,
+                                          .;;;;;;;;;;;;;;;
+                                            ,;;;;;;;;;;;`
+                                               `:;;;:`
 
 
 ;; {END}
@@ -46,7 +46,7 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step2}
 ;; step 2 - say hello take 2
 
-;; so-called S-expressions are used to execute functions
+;; so-called symbol-expressions (s-expressions) are used to execute functions
 (println "hello, folks at technologie-plauscherl")
 ;; {END}
 
@@ -54,6 +54,8 @@ println "hello, folks at technologie-plauscherl!"
 ;; step 3 - applying/calling functions
 (+ 1 1)
 (* 2 (+ 1 1))
+
+;; look how lists can be used to represent trees
 
 ;; functions are everywhere: even for variable definitions
 (def string "hello, folks at technologie-plauscherl")
@@ -87,8 +89,12 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step5}
 ;; step 5 - list: a special data type in Clojure
 
-(println (class (+)))
-(println (class '()))
+;; every line of code is represented in a list
+(+ 1 2)
+(filter pos? [-1 0 1 2 3])
+
+(println (class (+ 1 2)))
+(println (class '(+)))
 
 ;; every list represents an S-expression
 (browse-url "http://en.wikipedia.org/wiki/S-expression")
@@ -127,6 +133,8 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step7}
 ;; step 7 - available functions
 
+;; 1) JDK classes and all Java libraries, frameworks ...
+
 ;; JDK classes via Java interoperability layer
 (import 'java.util.ArrayList)
 
@@ -140,6 +148,8 @@ println "hello, folks at technologie-plauscherl!"
          (run [] (println "hello, world!"))))
 
 (.run p)
+
+;; 2) Clojure-specific packages
 
 ;; various packages: clojure.core, clojure.java, clojure.data, clojure.string, clojure.test, ...
 (browse-url "http://clojuredocs.org")
@@ -189,23 +199,66 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step10}
 ;; step 10 - it's all about data. Immutable data.
 
-;; remember the collection classes?
+;; sequences
+(def s (seq [1 2 3 4 5]))
+(first s)
+(rest s)
 
-;; def map
+
+(cons 0 s)
+
+;; sequences are especially intereseting when being generated lazily
+(take 5 (repeat "x"))
+
+;; positive number generator
+(defn positive-numbers
+    "Generate positive numbers for a better world."
+    ([] (positive-numbers 1))
+    ([n] (cons n (lazy-seq (positive-numbers (inc n))))))
+
+(take 42 (positive-numbers))
+
+;; fibonacci generator
+(defn fib [a b]
+  (cons a (lazy-seq (fib b (+ b a)))))
+
+;; maps as data containers - maps use "structural sharing"
 (def andre {:name "André" :age "31" :city "Linz"})
 (def tom {:name "Tom" :age "35" :city "Linz"})
+
+(clojure.pprint/print-table [andre tom])
 
 ;; every key is a function itself
 (println (:name andre))
 (println (andre :name))
 
-;; def vector
+;; records as map alternatives
+(defrecord Podcaster [name age city])
+
+(def andre (Podcaster. "André" 31 "Linz"))
+(def tom   (Podcaster. "Tom" 35 "Linz"))
+
+(clojure.pprint/print-table [andre tom])
+
+(defprotocol Podcast
+  "A simple protocol for podcasters"
+  (talk [this x] "Let the podcaster do the talking."))
+
+(defrecord Podcaster [name age city]
+  Podcast
+  (talk [this x] (str (:name this) " says: " x))
+)
+
+(.talk andre "hello world!")
+
+;; vectors as data containers
 (def dtr-podcast-team [andre tom])
 (clojure.pprint/pprint dtr-podcast-team)
 
-;; def set
+;; sets as data containers
 (def dtr-topics #{"evernote" "breitbandinternet" "groovy"})
 
+;; collections are immutable
 (conj dtr-topics "code löschen")
 (cons "code löschen" dtr-topics)
 
@@ -222,22 +275,24 @@ println "hello, folks at technologie-plauscherl!"
 (browse-url "http://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey")
 
 ;; "The future is a function of the past, and doesn’t change it. (Stu Halloway)"
-
 ;; MGMT SUMMARY: damn statful stuff, espescially in a concurrent environment.
 ;; {END}
 
 ;; {BEGIN: step11}
 ;; step 11 - concurrency tools
 
-;; check this out: LAZY sequences can be used to create generators
+;; sequences can be used to create generators
 (take 5 (repeat "x"))
 
+;; positive number generator
 (defn positive-numbers
     "Generate positive numbers for a better world."
     ([] (positive-numbers 1))
     ([n] (cons n (lazy-seq (positive-numbers (inc n))))))
 
+(take 42 (positive-numbers))
 
+;; fibonacci generator
 (defn fib [a b]
   (cons a (lazy-seq (fib b (+ b a)))))
 
@@ -246,11 +301,12 @@ println "hello, folks at technologie-plauscherl!"
 (def result (future
               (take 50 (fib 1M 1M))))
 
+(println (deref result))
 
 ;; atoms - managing shared, synchronous, independent state
 (def duff-man (atom "auf zum atem!"))
 
-;; creating 1.000 thousand computations to compute the first 1.000 fibonacci numbers
+;; creating thousand computations to compute the first 1.000 fibonacci numbers
 (def counter (atom 0))
 (loop [x 0]
   (if (< x 1000)
