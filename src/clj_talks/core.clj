@@ -83,6 +83,8 @@ println "hello, folks at technologie-plauscherl!"
 (def x 42) ;; def is a special form which creates a bound or unbound VAR
 (def x)
 
+(let [x 41] (println (inc x)))
+
 (class (var x))
 (class #'x)
 
@@ -97,6 +99,20 @@ println "hello, folks at technologie-plauscherl!"
 
 ;; {BEGIN: step7}
 ;; step 7 - available functions
+
+;; JDK classes via Java interoperability layer
+(import 'java.util.ArrayList)
+
+(-> (new ArrayList)
+    (.size))
+
+;; implementing against a Java interface
+(def p (proxy
+           [java.lang.Runnable]
+           []
+         (run [] (println "hello, world!"))))
+
+(.run p)
 
 ;; various packages: clojure.core, clojure.java, clojure.data, clojure.string, clojure.test, ...
 (browse-url "http://clojuredocs.org")
@@ -140,12 +156,8 @@ println "hello, folks at technologie-plauscherl!"
 (macroexpand '(defn my-print [arg1 arg2] (println arg1 arg2)))
 (macroexpand '(def x 42))
 
-;; def is a special thing, it's a form
-;; a convertion over the order and type of symbols that is used within the list
-;; other examples:
 
-(let [x 42] ;; [x 42] is another special form: a binding. it binds a symbol to a value
-  (inc x))
+
 
 ;; {END}
 
@@ -247,7 +259,7 @@ println "hello, folks at technologie-plauscherl!"
 
 ;; upcoming in Clojure 1.6: clojure.core.async
 ;;
-;; "go" and language-immanent channel stolen from the Go programming language
+;; "go" and language-immanent channel stolen from Google's Go programming language
 (remove-ns 'clojure.string)
 (use '[clojure.core.async] :reload-all)
 
