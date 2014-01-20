@@ -1,14 +1,4 @@
 # clj-talks
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+This repository contains the slides for an introduction to the Clojure programming language at the 
+Technologieplauscherl in Linz.

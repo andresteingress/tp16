@@ -1,10 +1,7 @@
 ;; {BEGIN: step0}
 
-;; step 0 - it's all about data.
+;; step 0 - code is data.
 
-;; Once upon a time, a Scala and a Clojure developer ...
-
-;; JSON feeling everywhere
 
 ;; {END}
 
@@ -25,12 +22,10 @@ println "hello, folks at technologie-plauscherl!"
 (+ 1 1)
 (* 2 (+ 1 1))
 
-
 ;; functions are everywhere: even for variable definitions
 (def string "hello, folks at technologie-plauscherl")
 (println string)
 ;; {END}
-
 
 ;; {BEGIN: step4}
 ;; step 4 - Clojure data types
@@ -44,7 +39,7 @@ println "hello, folks at technologie-plauscherl!"
 (println (class (* 2 1/3)))
 (println (class :plauscherl))
 
-; all of the collections are IMMUTABLE and PERSISTENT (structural sharing, enheriently thread-safe)
+; all of the collections are immutable and persistent (structural sharing, inherently thread-safe)
 (println (class []))
 (println (class {}))
 (println (class #{}))
@@ -70,7 +65,6 @@ println "hello, folks at technologie-plauscherl!"
 
 ;; the println statement above could be reformulated in code like this
 (eval (list (symbol "println") "test"))
-
 
 ;; {END}
 
@@ -157,8 +151,6 @@ println "hello, folks at technologie-plauscherl!"
 (macroexpand '(def x 42))
 
 
-
-
 ;; {END}
 
 ;; {BEGIN: step10}
@@ -197,6 +189,7 @@ println "hello, folks at technologie-plauscherl!"
 (browse-url "http://www.infoq.com/presentations/Are-We-There-Yet-Rich-Hickey")
 
 ;; "The future is a function of the past, and doesn’t change it. (Stu Halloway)"
+
 ;; MGMT SUMMARY: damn statful stuff, espescially in a concurrent environment.
 ;; {END}
 
