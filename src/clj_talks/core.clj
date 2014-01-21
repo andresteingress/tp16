@@ -1,6 +1,6 @@
 ;; {BEGIN: step0}
 
-;; step 0 - code is data.
+;; step 0 - intro
 
 
        111111111
@@ -39,6 +39,10 @@ println "hello, folks at technologie-plauscherl!"
 ;; step 2 - say hello take 2
 
 ;; so-called symbol-expressions (s-expressions) are used to execute functions
+;; everything in Clojure is formulated via S-expressions
+
+;; paranthesis are used to denote a list - LIstProcessing
+;; LISP is "homoiconc": lists repesenting actual code can be manipulated like lists in a collection sense
 (println "hello, folks at technologie-plauscherl")
 ;; {END}
 
