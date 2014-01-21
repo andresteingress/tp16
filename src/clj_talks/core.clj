@@ -59,7 +59,7 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step4}
 ;; step 4 - Clojure data types
 
-(println (class string)) ; look, our old friend "java.lang.String"
+(println (class "")) ; look, our old friend "java.lang.String"
 (println (class (char 97)))
 (println (class 1))
 (println (class 1N))
@@ -89,7 +89,7 @@ println "hello, folks at technologie-plauscherl!"
 (filter pos? [-1 0 1 2 3])
 
 (println (class (+ 1 2)))
-(println (class '(+)))
+(println (class '(+ 1 2)))
 
 ;; every list represents an S-expression
 (browse-url "http://en.wikipedia.org/wiki/S-expression")
@@ -98,8 +98,8 @@ println "hello, folks at technologie-plauscherl!"
 (println '(println "hello, folks at technologie-plauscherl"))
 
 ;; the println statement above could be reformulated in code like this
-(eval (list (symbol "println") "test"))
-
+(println (list (symbol "println") "test"))
+(println "test")
 ;; {END}
 
 ;; {BEGIN: step6}
@@ -111,7 +111,7 @@ println "hello, folks at technologie-plauscherl!"
 (def x 42) ;; def is a special form which creates a bound or unbound VAR
 (def x)
 
-(let [x 41] (println (inc x)))
+(let [x 41 y 42 z 45] (println (inc x)))
 
 (class (var x))
 (class #'x)
@@ -134,6 +134,8 @@ println "hello, folks at technologie-plauscherl!"
 (import 'java.util.ArrayList)
 
 (-> (new ArrayList)
+    (.add "test")
+    (.add "test")
     (.size))
 
 ;; implementing against a Java interface
@@ -159,18 +161,11 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step8}
 ;; step 8 - defining functions
 
-;; having a closer look at functions - how is a function DEFINED?
-
-(...)
-(fn ...)
-(fn [arg1 arg2] ...)
-(fn [arg1 arg2] (println arg1 arg2))
-
 ;; we have seen 'def' in the variable declaration
 (def my-print (fn [arg1 arg2] (println arg1 arg2)))
 
 (defn my-print [arg1 arg2]
-  (println arg1 arg2))
+  (+ arg1 arg2))
 
 ;; PLUS: every function is defined within a "namespace" -> "clojure.core", "clojure.string" etc.
 (println `(my-print "test"))
@@ -181,7 +176,7 @@ println "hello, folks at technologie-plauscherl!"
 ;; {END}
 
 ;; {BEGIN: step9}
-1;; step 9 - macros: usage and expansion
+;; step 9 - macros: usage and expansion
 
 ;; MACROS can be used to generate code at compile-time
 (macroexpand '(println "test"))
