@@ -2,30 +2,31 @@
 
 ;; step 0 - code is data.
 
-                                                                                        
-       111111111                                                                        
-      111111111111                                                                      
-    1111111111111111                                                                    
-   1    1111111111111                                                                   
-                11111                        00                                         
-    111    1111  11111              000000   00              000                        
-  1111  1  11111  1111            000000000  00              000                        
-  111  111  11111 11111           00     0   00                                         
- 1111 1111  11111  1111          000         00    000       00  00   00  00 00   000   
- 1111 11111 111111 1111          00          00   000000    00   00   00  00000 000000  
- 1111 1111   11111 1111          00          00  000  000   00   00   00  000   00   00 
- 1111 1111   11111 1111          00          00  00    00   00   00   00  00   00    00 
- 1111 111  1 1111  1111          00          00  00    00   00   00   00  00   00000000 
- 1111  11 11  111  1111           00         00  00    00  00    00   00  00   00       
- 11111    11  11  1111            0000  0000 00  000  000  00    000 000  00    00  100 
-  11111   111    11                00000000  00   000000   00     000000  00    000000  
-  111111                              00                  00                            
-   1111111    1111111                                     00                            
-    1111111111111111                                    0000                            
-     11111111111111                                     000                             
-       1111111111                                                                       
-          111                                                                           
-                                                                                        
+
+       111111111
+      111111111111
+    1111111111111111
+   1    1111111111111
+                11111
+    111    1111  11111
+  1111  1  11111  1111
+  111  111  11111 11111
+ 1111 1111  11111  1111
+ 1111 11111 111111 1111
+ 1111 1111   11111 1111
+ 1111 1111   11111 1111
+ 1111 111  1 1111  1111
+ 1111  11 11  111  1111
+ 11111    11  11  1111
+  11111   111    11
+  111111
+   1111111    1111111
+    1111111111111111
+     11111111111111
+       1111111111
+          111
+
+   http://clojure.org
 
 ;; {END}
 
@@ -47,10 +48,8 @@ println "hello, folks at technologie-plauscherl!"
 (* 2 (+ 1 1))
 
 ;; look how lists can be used to represent trees
-
-;; functions are everywhere: even for variable definitions
-(def string "hello, folks at technologie-plauscherl")
-(println string)
+;;
+;; comparison to Groovy AST transformtions, ASM, Java agents
 ;; {END}
 
 ;; {BEGIN: step4}
@@ -63,6 +62,7 @@ println "hello, folks at technologie-plauscherl!"
 (println (class 1M))
 (println (class 1.0))
 (println (class (* 2 1/3)))
+
 (println (class :plauscherl))
 
 ; all of the collections are immutable and persistent (structural sharing, inherently thread-safe)
@@ -177,7 +177,7 @@ println "hello, folks at technologie-plauscherl!"
 ;; {END}
 
 ;; {BEGIN: step9}
-;; step 9 - macros: usage and expansion
+1;; step 9 - macros: usage and expansion
 
 ;; MACROS can be used to generate code at compile-time
 (macroexpand '(println "test"))
@@ -198,7 +198,7 @@ println "hello, folks at technologie-plauscherl!"
 
 (cons 0 s)
 
-;; sequences are especially intereseting when being generated lazily
+;; sequences are especially interesting when being generated lazily
 (take 5 (repeat "x"))
 
 ;; positive number generator
@@ -272,21 +272,7 @@ println "hello, folks at technologie-plauscherl!"
 ;; {BEGIN: step11}
 ;; step 11 - concurrency tools
 
-;; sequences can be used to create generators
-(take 5 (repeat "x"))
-
-;; positive number generator
-(defn positive-numbers
-    "Generate positive numbers for a better world."
-    ([] (positive-numbers 1))
-    ([n] (cons n (lazy-seq (positive-numbers (inc n))))))
-
-(take 42 (positive-numbers))
-
-;; fibonacci generator
-(defn fib [a b]
-  (cons a (lazy-seq (fib b (+ b a)))))
-
+;; toolset: vars, refs, atoms, agents (and clojure.core.async)
 
 ;; future - execute the code in the background and make it available some time ...
 (def result (future
